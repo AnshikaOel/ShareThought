@@ -123,17 +123,24 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 .otpbox{
-width: 50px;
+align-items: center;
+width: 350px;
 padding: 25px;
+font-size:xx-large;
 border-color: black;
 margin: 15px;
+margin-left: 75px;
 border-radius: 5px;
 }
 
 .submitText{
   color: rgb(252, 249, 249);
 }
-
+.linkStyle {
+  text-decoration: none;
+  color: white;
+  /* Add more styles as needed */
+}
 .tabs, .post{
   /* float: left;
   width: 60%;
