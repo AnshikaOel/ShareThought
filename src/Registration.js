@@ -2,31 +2,17 @@ import React, { useState } from 'react'
 import image from "./background.jpg"
 import { toast } from 'react-toastify'
 import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 export default function Registration() {
     
     const [fname,fnamechange]=useState("")
     const [lname,lnamechange]=useState("")
     const [id,idchange]=useState("")
     const [password,passwordchange]=useState("")
-    const [generatedOTP,generatedOTPChange]=useState("")
     const navigate=useNavigate();
-
-    const handleregistration=(e)=>{
-        e.preventDefault()
-        let info={id,fname,lname,password}
-        console.log(info)
-        fetch("http://localhost:3000/user",{
-            method:"POST",
-            headers:{'content-type':'application/json'},
-            body:JSON.stringify(info)
-        }).then((res)=>{
-               toast.success('Registered Succesfully')
-               navigate('/Login')
-        }).catch((err)=>{
-               toast.error('failed:'+err.message)
-        })
-    }
-
+    var generatedOTP=0
+    let info = { id, fname, lname, password };
+    
     const validateEmail = (id) => {
       return String(id)
         .toLowerCase()
@@ -40,7 +26,7 @@ export default function Registration() {
       var lowerCase=/[a-z]/g
       var number=/[0-9]/g
       var specialChar=/[!@#$%^&*()_+{}\]:;<>,.?~\\/-]/
-        if(password.length>=8 && password.match(lowerCase) && password.match(uppercase) && password.match(number) && password.match(specialChar))
+      if(password.length>=8 && password.match(lowerCase) && password.match(uppercase) && password.match(number) && password.match(specialChar))
         return true
       return false
     }
@@ -51,19 +37,30 @@ export default function Registration() {
       {a[i].style.display='none'}
     }
 
-    const validateAll=()=>{
+    const validateAll=(e)=>{
+      e.preventDefault();
       if(validatePassword(password) && validateEmail(id))
       {
         handleGeneatedOTP()
-        navigate('/OTP')
+        navigate('/OTP',{state:{info}})
+        // handleregistration()
       }else{
         alert("Enter valid email Id and Password")
       }
     }
 
+    const sendOtpEmail = async () => {
+      try {
+        const response = await axios.post('http://localhost:5000/sendmail', { id, generatedOTP });
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error sending OTP email:', error);
+      }
+    };
+
 const handleGeneatedOTP=async()=>{
   try{
-    const response=await fetch('/generateOTP',{
+    const response=await fetch('http://localhost:5000/generateOTP',{
       method:'POST',
       headers:{
         'Content-Type':'application/json'
@@ -71,21 +68,27 @@ const handleGeneatedOTP=async()=>{
     })
    if(response.ok){
     const data=await response.json()
-    generatedOTPChange(data.otp)
+    if (data && data.otp !== undefined) {
+      generatedOTP=data.otp
+      console.log(generatedOTP)
+      // sendOtpEmail()
+  } else {
+      console.log('Invalid response format from the server');
+  }
    }else{
     console.log('Failed to generate OTP')
    }
   }catch(error){
     console.log("Error geneating OTP : ",error)
   }
-} 
+}
     return (
     <div onLoad={hide()}>
     <img src={image} alt='background-image'/>
     <div id='d'>
       <h3>Create Your Account</h3>
       <br></br>
-      <form className="row g-3" >
+      <form className="row g-3" action="/submit" method="post" onSubmit={validateAll}>
         <div className="col-md-6">
           <label for="inputEmail4" className="form-label">First Name</label>
           <input type="text" className="form-control" value={fname} onChange={(e)=>fnamechange(e.target.value)}></input><p className={fname.length<2?'invalid':'invalid-hide'}>*Invalid First Name</p>
@@ -103,9 +106,9 @@ const handleGeneatedOTP=async()=>{
           <input type="password" className="form-control" value={password} onChange={(e)=>passwordchange(e.target.value)}></input><p className={validatePassword(password)?'invalid-hide':'invalid'}>*Invalid Password</p>
         </div>
         <div className="col-12">
-          <button type='submit' className='btn btn-primary' onClick={validateAll}>Continue</button>
+          <button type='submit' className='btn btn-primary'>Continue</button>
         </div>
-        </form>
+      </form>
     </div>
     </div>
   )
