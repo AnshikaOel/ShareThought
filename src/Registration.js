@@ -51,7 +51,7 @@ export default function Registration() {
 
     const sendOtpEmail = async () => {
       try {
-        const response = await axios.post('http://localhost:5000/sendmail', { id, generatedOTP });
+        const response = await axios.post('https://share-thought-jadn.vercel.app/sendmail', { id, generatedOTP });
         console.log(response.data);
       } catch (error) {
         console.error('Error sending OTP email:', error);
@@ -60,7 +60,7 @@ export default function Registration() {
 
 const handleGeneatedOTP=async()=>{
   try{
-    const response=await fetch('http://localhost:5000/generateOTP',{
+    const response=await fetch('https://share-thought-jadn.vercel.app/generateOTP',{
       method:'POST',
       headers:{
         'Content-Type':'application/json'
