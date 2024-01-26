@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
+import image from "./background.jpg"
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-export default function Login() {
+export default function Login() { 
 
   const [id,idUpdate]=useState('')
   const [password,passwordUpdate]=useState('')
@@ -13,7 +14,7 @@ export default function Login() {
     if(validate())
     {
       console.log('procedd')
-      fetch("http://localhost:3000/user/"+id).then((res)=>{
+      fetch("http://localhost:5000/userInfo"+id).then((res)=>{
         console.log(res)
         return res.json()
       }).then((resp)=>{
@@ -38,28 +39,27 @@ export default function Login() {
   }
 
   return (
-    <div className='row'>
-      <div className=''>
-        <form onSubmit={ProceedLogin} className=''>
-          <div>
+    <div >
+      <img src={image} alt='background-image'/>
+      <div id='d'>
+        <form action="/submit" method="post"onSubmit={ProceedLogin} className="row g-3">
             <div>
               <h2>User Login</h2>
             </div>
             <div>
-              <div>
-                <label>Email</label>
-                <input type='text' className='' value={id} onChange={e=>idUpdate(e.target.value)}></input>
+              <div className="col-md-6">
+                <label className="form-label">Email</label>
+                <input type='text' className="form-control"  value={id} onChange={e=>idUpdate(e.target.value)}></input>
               </div>
-              <div>
-                <label>Password</label>
-                <input type='password' className='' value={password} onChange={e=>passwordUpdate(e.target.value)}></input>
+              <div className="col-md-6">
+                <label className="form-label">Password</label>
+                <input type='password' className="form-control"  value={password} onChange={e=>passwordUpdate(e.target.value)}></input>
               </div>
             </div>
-            <div className=''>
-              <button type='submit' className=''>Submit</button>
-              <Link className="" to={'/registration'}>New User</Link>
+            <div className="col-md-6">
+              <button type='submit' className='btn btn-primary'>Submit</button>
+              <button type='submit' className='btn btn-primary'><Link className="linkStyle"to={'/registration'}>New User</Link></button>
             </div>
-          </div>
         </form>
       </div>
     </div>
