@@ -1,30 +1,47 @@
 import React from 'react'
 import { useState } from 'react'
-import image from "./background.jpg"
-import { Link } from 'react-router-dom'
+import image from "./shareThought.jpg"
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 export default function Login() { 
 
+  const navigate=useNavigate()
   const [id,idUpdate]=useState('')
   const [password,passwordUpdate]=useState('')
-
-  const ProceedLogin=(e)=>{
+  
+  console.log("THis is login --"+id)
+  const ProceedLogin=async(e)=>{
     e.preventDefault()
     if(validate())
     {
       console.log('procedd')
-      fetch("http://localhost:5000/userInfo"+id).then((res)=>{
-        console.log(res)
-        return res.json()
-      }).then((resp)=>{
-        console.log(resp)
-      }).catch((err)=>{
-        toast.error('Login Failed due to : '+err.message)
+      try{
+      const resp=await fetch(`http://localhost:5000/login`,{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+        },
+        body:JSON.stringify({id,password})
       })
-    }
+        
+        if(resp.ok){
+          const a= await resp.text()
+          if(a.success){
+            navigate('/feed')
+          }else{
+                navigate('/login')
+                toast.error('Login Failed due to Wrong Login Cresdentials')
+          }
+        }else{
+          navigate('/login')
+          toast.error('Login Failed due to Wrong Login Cresdentials')
+        }
+      }catch(err){
+        toast.error('Login Failed due to : '+err.message)
+      }
   }
-
+}
   const validate=()=>{
     let result=true;
     if(id==='' || id===null){
@@ -58,7 +75,7 @@ export default function Login() {
             </div>
             <div className="col-md-6">
               <button type='submit' className='btn btn-primary'>Submit</button>
-              <button type='submit' className='btn btn-primary'><Link className="linkStyle"to={'/registration'}>New User</Link></button>
+              <Link className="linkStyle btn btn-primary"to={'/registration'} >New User</Link>
             </div>
         </form>
       </div>
