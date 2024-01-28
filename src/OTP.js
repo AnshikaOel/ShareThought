@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate,useLocation } from 'react-router-dom';
-
+import image from "./shareThought.jpg"
 
 export default function OTP() {
   const location = useLocation();
@@ -32,12 +32,8 @@ export default function OTP() {
     console.error(err)
 }
 }
-  
-  
   const SubmitOTP=async(e)=>{
-
     e.preventDefault();  
-
     try{
       const response=await fetch('http://localhost:5000/verifyOTP',{
         method:'POST',
@@ -48,7 +44,7 @@ export default function OTP() {
       })
       const responseData=await response.json()
       if(responseData.message=='true'){
-        console.log("this is otp"+responseData.message)
+        // console.log("this is otp"+responseData.message)
         handleregistration()
         navigate('/AccountCreated',{state:{info}})
       }else{
@@ -57,18 +53,20 @@ export default function OTP() {
     }catch(error){
       console.error('Error sending data ',error)
     }
-
   }
   return (
     <div>
+    <img src={image} alt='background-image'/>
+    <div id='d'>
     <form className="row g-3" action="/submit" method="post" onSubmit={SubmitOTP}>
-      <div className=' g-3 col-md-6 box ' >
+      <div>
       <label for="otp"><h1>Enter the OTP send on Your Email</h1></label>
       <input type='number' minLength={4} maxLength={4} className='otpbox' value={userOTP} onChange={(e)=>{setuserOTP(e.target.value)}}></input>
       <br></br>
-      <button type='submit' className='btn btn-primary submitText' >Continue</button>
+      <center><button type='submit' className='btn btn-primary submitText' >Continue</button></center>
       </div>
     </form>  
     </div>
+    </div>
   )
-} 
+}  
