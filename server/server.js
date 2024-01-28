@@ -85,6 +85,26 @@ app.post('/userInfo',async(req,res)=>{
 })
 
 
+// retriving data
+app.post('/login',async(req,res)=>{
+    const{id,password}=req.body
+    let fileData=[]
+    console.log("this is login "+id+password)
+    try{
+         let filePath=path.join(__dirname,'userInfo.json')
+         const fileContent=fs.readFileSync(filePath,'utf-8')
+        fileData=JSON.parse(fileContent)
+    }catch(err){
+
+    }
+    const verificationstatus=fileData.find(u=>u.id==id && u.password==password)
+    if(verificationstatus){
+        res.json({success:true})
+    }else{
+        res.json({success:false,error:'Invslid Credentials'})
+    }
+})
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
