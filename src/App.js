@@ -8,9 +8,9 @@ import Registration from './Registration'
 import Post from './Post'
 import OTP from './OTP'
 import AccountCreated from './AccountCreated';
-import Feed from './feed';
+import Feed from './Feed';
 import FullPostRead from './fullPostRead';
-
+import createPost from './createPost'
 
 function App() {
   return (
@@ -24,8 +24,9 @@ function App() {
           <Route path='/Post' element={<Post/>}></Route>
           <Route path='/OTP' element={<OTP/>}></Route>
           <Route path='/AccountCreated' element={<AccountCreated/>}></Route>
-          <Route path='/feed' element={<Feed/>}></Route>
+          <Route path='/Feed' element={<Feed/>}></Route>
           <Route path='/fullPostRead' element={<FullPostRead/>}></Route>
+          <Route path='/createPost' element={<createPost/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
