@@ -43,6 +43,7 @@ export default function Registration() {
       {
         handleGeneatedOTP()
         navigate('/OTP',{state:{info}})
+        // navigate('/feed')
         // handleregistration()
       }else{
         alert("Enter valid email Id and Password")
