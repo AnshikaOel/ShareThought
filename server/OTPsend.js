@@ -4,15 +4,15 @@ const nodemailer=require('nodemailer')
 const transporter=nodemailer.createTransport({
     service:'gmail',
     auth:{
-        user:'youremail@gmail.com',
-        pass:"yourpassword"
+        user:'your_eamil@gmail.com',
+        pass:"your+password"
     },
 })
    
 
 const sendemail=(useremail,otp)=>{
     const mailConfig={
-        from:'youremail@gmail.com',
+        from:'your_eamil@gmail.com',
         to:useremail,
         subject:'OTP Verification',
         text:`Your OTP for the verification is ${otp}`
