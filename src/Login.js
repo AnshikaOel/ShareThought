@@ -5,12 +5,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 export default function Login() { 
-
+ 
   const navigate=useNavigate()
   const [id,idUpdate]=useState('')
   const [password,passwordUpdate]=useState('')
   
-  console.log("THis is login --"+id)
+  console.log("THis is login & apassword -- "+id+" & "+password)
   const ProceedLogin=async(e)=>{
     e.preventDefault()
     if(validate())
@@ -24,18 +24,17 @@ export default function Login() {
         },
         body:JSON.stringify({id,password})
       })
-        
+      const a= await resp.json()
         if(resp.ok){
-          const a= await resp.text()
           if(a.success){
-            navigate('/feed')
+            navigate('/feed',{state:{id}})
           }else{
-                navigate('/login')
-                toast.error('Login Failed due to Wrong Login Cresdentials')
+            navigate('/login')
+            toast.error('Login Failed due to Wrong Login Cresdentials')
           }
         }else{
           navigate('/login')
-          toast.error('Login Failed due to Wrong Login Cresdentials')
+          toast.error('Login Failed due to Wrong Login =Cresdentials')
         }
       }catch(err){
         toast.error('Login Failed due to : '+err.message)
@@ -59,7 +58,7 @@ export default function Login() {
     <div >
       <img src={image} alt='background-image'/>
       <div id='d'>
-        <form action="/submit" method="post"onSubmit={ProceedLogin} className="row g-3">
+        <form action="/submit" method="post" onSubmit={ProceedLogin} className="row g-3">
             <div>
               <h2>User Login</h2>
             </div>
