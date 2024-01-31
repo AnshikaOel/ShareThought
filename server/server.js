@@ -6,7 +6,8 @@ const {sendemail} =require('./OTPsend');
 const { consumers } = require('nodemailer/lib/xoauth2');
 const fs=require('fs').promises
 const path=require('path');
-const { userInfo } = require('os');
+// const { userInfo } = require('os');
+// const { count } = require('console');
 // const userIndo =require('./userInfo.json')
 const port = 5000;
 const app = express();
@@ -91,18 +92,44 @@ app.post('/login',async(req,res)=>{
     let fileData=[]
     console.log("this is login "+id+password)
     try{
-         let filePath=path.join(__dirname,'userInfo.json')
-         const fileContent=fs.readFileSync(filePath,'utf-8')
+        let filePath=path.join(__dirname,'userInfo.json')
+        const fileContent=await fs.readFile(filePath,'utf-8')
         fileData=JSON.parse(fileContent)
     }catch(err){
-
+        console.error(err)
     }
+    console.log(fileData)
     const verificationstatus=fileData.find(u=>u.id==id && u.password==password)
     if(verificationstatus){
+        console.log("login in done")
         res.json({success:true})
     }else{
-        res.json({success:false,error:'Invslid Credentials'})
+        console.log("login in not done")
+        res.json({success:false,error:'Invalid Credentials'})
     }
+})
+
+//accounte created call
+app.post('/userName',async(req,res)=>{
+    const {id}=req.body
+    // console.log("this is server account created "+id)
+    let fileData=[]
+    try{
+        let filePath=path.join(__dirname,'userInfo.json')
+        const fileContent=await fs.readFile(filePath,'utf-8')
+        fileData=JSON.parse(fileContent)
+    }catch(err)
+    {
+        console.error("Some error occured--"+err)
+        return res.status(500).json({success:false,message:"Invalid Server Error"})
+    }
+    let nameUser=fileData.find(u=>u.id==id)
+    if(!nameUser){
+        return res.json({success:false,message:"User not found",data:null})
+    }
+    let fullname=nameUser["fname"]+" "+nameUser["lname"]
+    console.log("this server account created "+fullname)
+   res.json({success:true,message:"user found",data:{fullname}})
 })
 
 app.listen(port, () => {
