@@ -1,21 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import image from "./shareThought.jpg"
 export default function Home() {
   return (
     <div>
-      <div className=' g-3 col-md-6 box '>
-      <h1>Start Posting ANONYMOUSLY where NO One is judging </h1><br></br>
-      <center>
-      <button  className='btn btn-primary submitText'><Link to='/registration' className="linkStyle">Create Account</Link></button>
-      
+      <img src={image} alt='background-image'/>
+      <div id='d'>
+      <div >
+      <h2>Start Posting ANONYMOUSLY where NO One is judging </h2><br></br>
+      <center><button className='btn btn-primary submitText'><Link to='/registration' className="linkStyle">Create Account</Link></button></center>
       <br></br><br></br>
-      Already have a Account
-      <br></br>
-      <button  className='btn btn-primary submitText'><Link to='/login' className="linkStyle">Login</Link></button>
-      </center>
+      <center><h3>Already have a Account</h3></center>
+      {/* <br></br> */}
+      <center><button  className='btn btn-primary submitText'><Link to='/login' className="linkStyle">Login</Link></button></center>
+      </div>
       </div>
     </div>
-  )
+  ) 
 } 
  
