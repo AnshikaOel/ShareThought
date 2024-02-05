@@ -9,7 +9,7 @@ export default function OTP() {
   const  [userOTP,setuserOTP]=useState('')
   const {state:{info}}=location
   // console.log("this is location "+info)
-  useEffect(()=>{
+  useEffect(()=>{ 
     console.log('Recieved props in otp',info) 
   },[info])
   
@@ -48,7 +48,7 @@ export default function OTP() {
         console.log("this is otp--"+responseData.message)
         //  info=JSON.stringify(info)
         // console.log("this is OTP"+info)
-        //
+        // 
         handleregistration()
         let a=JSON.stringify(info)
         let b=JSON.parse(a)
