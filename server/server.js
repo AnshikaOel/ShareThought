@@ -4,14 +4,16 @@ const cors = require('cors');
 const {generateOTP,getOTP,verifyOTP} = require('./OTPver');  // Import the OTPver file
 const {sendemail} =require('./OTPsend');
 const { consumers } = require('nodemailer/lib/xoauth2');
-const fs=require('fs').promises
+const fs=require('fs/promises')
 const path=require('path');
+// const { CallTracker } = require('assert');
+// const { Await } = require('react-router-dom');
 // const { userInfo } = require('os');
 // const { count } = require('console');
 // const userIndo =require('./userInfo.json')
 const port = 5000;
 const app = express();
-let temp=true
+let temp=true 
 
 app.use(bodyParser.json());
 
@@ -132,6 +134,50 @@ app.post('/userName',async(req,res)=>{
    res.json({success:true,message:"user found",data:{fullname}})
 })
 
+
+//saving  data of post 
+
+app.post('/post_save',async(req,res)=>{
+    const data =req.body
+    const newData={
+        post_title:data.postTitle,
+        post_data:data.post_data
+    }
+    console.log(newData)
+    try{
+        let filePath=path.join(__dirname,'userInfo.json')
+        const content=await fs.readFile(filePath,'utf8')
+         const jsonData=JSON.parse(content)
+        //  console.log(jsonData)
+        const objectToUpdate=jsonData.findIndex(obj=>obj.id===data.id)
+                if(objectToUpdate!==-1){
+                   Object.assign(jsonData[objectToUpdate],newData) 
+                   await fs.writeFile(filePath,JSON.stringify(jsonData,null,2),'utf-8')
+                   console.log('data has been updated successfully')
+                   res.status(200).json({message:'data updated '})
+                }else{
+                    console.error('ID not found ',data.id)
+                    res.status(404).json({error:'Id Not found'})
+                }
+    }catch(error){
+        console.error("error in adding file : ",error)
+        res.status(500).json({error:'Internal Server Error'})
+    }
+})
+
+
+//get all data 
+app.get('/getData',async(req,res)=>{
+    try{
+        let filePath=path.join(__dirname,'userInfo.json')
+        const content=await fs.readFile(filePath,'utf-8')
+        const data=JSON.parse(content)
+        res.status(200).json({message:"data send successfully",data:data})
+    }catch(error){
+        console.error('error in reading file ',error)
+        res.status(500).json({error:'Internal Server Error'})
+    }
+})
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
