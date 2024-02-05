@@ -1,8 +1,12 @@
 import React, { useEffect, useState} from 'react'
-import { Link ,useLocation} from 'react-router-dom'
+import { Link ,Navigate,useLocation, useNavigate} from 'react-router-dom'
 import image from "./shareThought.jpg"
 
 export default function AccountCreated() {
+  const feed=()=>{
+    navigate('/feed',{state:{id}})
+   }
+  const navigate=useNavigate() 
   const location = useLocation();
   let {state:{id}}=location
   useEffect(()=>{
@@ -28,13 +32,14 @@ export default function AccountCreated() {
       let a=await response.json()
        nameUser=a.data.fullname
        setfullname(nameUser)
-      console.log("yaayy..we got the user name"+nameUser+"--"+typeof(nameUser))
+      console.log("yaayy..we got the user name--"+nameUser+"--"+typeof(nameUser))
     }else{
       console.log("Some error occured in getting the user name")
     }
    }catch(err){
     console.error(err)
    }
+   
 
   }
   userName()
@@ -46,7 +51,8 @@ export default function AccountCreated() {
         <h1>Account Created successfully</h1>
         <h2 className='accnt_username'>{fullname}</h2>
         <br></br>
-        <center><button className='btn btn-primary'><Link to={{pathname:'/feed',state:{data:id}}}className="linkStyle">Create Your First Post</Link></button></center>
+        <center><button className='btn btn-primary' onClick={feed}>Create Your First Post</button></center>
+        {/* <Link to={{pathname:'/feed',state:{id_no:id}}}className="linkStyle"></Link> */}
       </div>
     </div>
   )
