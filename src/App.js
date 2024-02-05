@@ -10,8 +10,8 @@ import OTP from './OTP'
 import AccountCreated from './AccountCreated';
 import Feed from './Feed';
 import FullPostRead from './fullPostRead';
-import createPost from './createPost'
-
+import CreatePost from './CreatePost'
+ 
 function App() {
   return (
     <div className="App">
@@ -26,7 +26,7 @@ function App() {
           <Route path='/AccountCreated' element={<AccountCreated/>}></Route>
           <Route path='/Feed' element={<Feed/>}></Route>
           <Route path='/fullPostRead' element={<FullPostRead/>}></Route>
-          <Route path='/createPost' element={<createPost/>}></Route>
+          <Route path='/CreatePost' element={<CreatePost/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
