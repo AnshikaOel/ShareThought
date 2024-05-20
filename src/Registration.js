@@ -87,7 +87,7 @@ const handleGeneatedOTP=async()=>{
     <div onLoad={hide()}>
     <img src={image} alt='background-image'/>
     <div id='d'>
-      <h3>Create Your Account</h3>
+      <h3>Create Your own Account</h3>
       <br></br>
       <form className="row g-3" action="/submit" method="post" onSubmit={validateAll}>
         <div className="col-md-6">
