@@ -10,7 +10,7 @@ export default function AccountCreated() {
   const location = useLocation();
   let {state:{id}}=location
   useEffect(()=>{
-    console.log('Recieved props in account created',id) 
+    console.log('Recieved props jfvnjfkvn in account created',id) 
   },[id])
    id=JSON.stringify(id)
    id=JSON.parse(id)
