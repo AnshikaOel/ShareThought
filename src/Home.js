@@ -8,7 +8,7 @@ export default function Home() {
       <div id='d'>
       <div >
       <h2>Start Posting ANONYMOUSLY where NO One is judging </h2><br></br>
-      <center><button className='btn btn-primary submitText'><Link to='/registration' className="linkStyle">Create Account</Link></button></center>
+      <center><button className='btn btn-primary submitText'><Link to='/registration' className="linkStyle">Create an Account</Link></button></center>
       <br></br><br></br>
       <center><h3>Already have an Account</h3></center>
       {/* <br></br> */}
